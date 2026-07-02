@@ -17,7 +17,7 @@ modules:
   - type: dnf
     install:
       packages:
-        - kde-partionmanager
+        - kde-partitionmanager
         - podman-compose
         - libreoffice-TexMaths
         - libreoffice-base
