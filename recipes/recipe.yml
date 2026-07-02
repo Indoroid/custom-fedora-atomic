@@ -1,13 +1,10 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
 name: custom-fedora-atomic
 # description will be included in the image's metadata
-description: This is my personal OS image.
-
-# the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+description: This image is based on Bazzite which opinaites and removes the packages that I deem are not useful in the default system installation.
+base-image: ghcr.io/ublue-os/bazzite-nvidia-open
+image-version: latest
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
@@ -18,19 +15,40 @@ modules:
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
   - type: dnf
-    repos:
-      copr:
-        - atim/starship
     install:
       packages:
-        - micro
-        - starship
+        - kde-partionmanager
+        - podman-compose
+        - libreoffice-TexMaths
+        - libreoffice-base
+        - libreoffice-calc
+        - libreoffice-core
+        - libreoffice-draw
+        - libreoffice-data
+        - libreoffice-emailmerge
+        - libreoffice-graphicfilter
     remove:
       packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+        - steam
+        - lutris
+        - bazaar
+        - webapp-manager
+        - Scopebuddy
+        - mangohud.x86_64
+        - mangohud.i686
+        - terra-gamescope.x86_64
+        - terra-gamescope.i686
+        - openxr
+        - krunner-bazaar
+        - gnome-disk-utility
+        - fcitx5-chewing
+        - fcitx5-mozc
+        - fcitx5-chinese-addons
+        - fcitx5-m17n
+        - fcitx5-hangul
+        - kcm-fcitx5
+        - iwd
+
 
   - type: default-flatpaks
     configurations:
@@ -38,8 +56,20 @@ modules:
         scope: system
         # If no repo information is specified, Flathub will be used by default
         install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
-          - org.gnome.Loupe
+          - app.zen_browser.zen
+          - com.vscodium.codium-insiders
+          - io.github.kolunmi.Bazzar
+          - org.fkoehler.KTailctl
       - scope: user # Also add Flathub user repo, but no user packages
+        install:
+          - com.valvesoftware.Steam
+          - com.valvesoftware.Steam.CompatibilityTool.Proton-GE
+          - com.valvesoftware.Steam.Utility.InhibitScreensaver
+          - com.valvesoftware.Steam.Utility.steamtinkerlaunch
+          - com.heroicgameslauncher.hgl
+
+  - type: script
+    scripts:
+      - disable-flatpak-installer.sh
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
