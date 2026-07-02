@@ -52,18 +52,19 @@ modules:
 
   - type: default-flatpaks
     configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
+      - notify: true 
         scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
+        install:
           - app.zen_browser.zen
           - com.vscodium.codium-insiders
-          - io.github.kolunmi.Bazzar
+          - io.github.kolunmi.Bazaar
           - org.fkoehler.KTailctl
-      - scope: user # Also add Flathub user repo, but no user packages
+          - io.github.flattool.Warehouse
+          - com.github.tchx84.Flatseal
+      - scope: user 
         install:
           - com.valvesoftware.Steam
-          - com.valvesoftware.Steam.CompatibilityTool.Proton-GE
+          - net.davidotek.pupgui2
           - com.valvesoftware.Steam.Utility.InhibitScreensaver
           - com.valvesoftware.Steam.Utility.steamtinkerlaunch
           - com.heroicgameslauncher.hgl
